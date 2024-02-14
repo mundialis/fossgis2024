@@ -1,0 +1,157 @@
+/* https://geoserver.mundialis.de/geoserver/sentinelMosaic/wms?SERVICE=WMS&VERSION=1.1.0&REQUEST=GetMap&TRANSPARENT=true&LAYERS=sentinelMosaic%3Aart_8A1104&bbox=1095703.6426764955,7051569.650116722,1125399.4276764954,7091164.030762932&FORMAT=image%2Fjpeg&SRS=EPSG%3A3857&STYLES=&WIDTH=1477&HEIGHT=1969&TIME=2022 */
+
+body {
+    width: 100%;
+    font-family: "Open Sans", "Helvetica Neue", helvetica, arial, verdana, sans-serif;
+    line-height: 2em;
+    /* background-color: rgb(255, 255, 255); */
+    margin: 0px;
+}
+
+h1 {
+    font-size: 3.4em;
+    margin-bottom: 2em;
+}
+
+h1, h2, h1 a {
+    color: #0e1058;
+    text-align: center;
+    line-height: 1em;
+    font-weight: normal;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+img.icon {
+    width: 10px;
+    height: 10px;
+    padding-left: .3em;
+    padding-right: .3em;
+    float: none;
+}
+
+#f4glogo {
+    width: 2em;
+}
+
+main {
+    /* background-color: rgb(255, 255, 255); */
+    z-index: 2;
+    /* padding: 2em; */
+    margin: auto;
+    margin-top: 7em;
+    /* margin-left: 14em;
+    margin-right: 14em; */
+    margin-bottom: 0px;
+    /* border: solid #0e1058 5px; */
+    border-radius: 3px;
+}
+
+.flexparent {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.flexchild {
+    width: 20%;
+    min-width: 8em;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 1.5em;
+    font-weight: 600;
+    color: white;
+    color: #0e1058;
+    /* border: solid #0e1058 5px; */
+    padding: 1%;
+    margin: 1%;
+    border-radius: 13%;;
+}
+
+.flexchild {
+    /* background-color: #ee7f00; */
+    background: url('resources/img/sentinelMosaic-art_8A1104_lighter_tiny.jpg') top/cover no-repeat fixed;
+}
+
+.flexchildhalf {
+    width: 45%;
+}
+
+side .flexparent,
+.side .flexparent {
+    margin-top: 5em;
+}
+
+side .flexchild,
+.side .flexchild {
+    width: 12%;
+    min-width: 8em;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 0.9em;
+    color: #0e1058;
+    border: solid #0e1058 2px;
+    padding: 1%;
+    margin: 1%;
+    background-image: unset !important;
+}
+
+side .flexchild:hover,
+.side .flexchild:hover {
+    box-shadow: 0px 0px 0px 2px rgba(0,0,0,0.34);
+}
+
+.event > .maininfo {
+    text-align: right;
+    letter-spacing: 0.05    em;
+}
+
+.event > .moreinfos {
+    transition: visibility 0s, opacity 0.5s linear;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.event:hover > .moreinfos {
+    visibility: visible;
+    opacity: 1;
+}
+
+img.blockimg {
+    width: 80%;
+    display: block;
+    margin: 2em;
+}
+
+img.fleximg {
+    width: 100%;
+}
+
+@media (max-width: 1500px) {
+    .flexchild {
+        width: 90%;
+        min-width: 1em;
+        border-radius: 1%;
+    }
+    .event > .maininfo {
+        text-align: center;
+        font-size: larger;
+    }
+    .event > .moreinfos {
+        visibility: visible;
+        opacity: 1;
+    }
+    side .flexchild,
+    .side .flexchild {
+        width: 27%;
+        font-size: 1.2em;
+    }
+}

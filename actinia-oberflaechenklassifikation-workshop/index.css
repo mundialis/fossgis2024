@@ -1,0 +1,53 @@
+body {
+    width: 100%;
+    font-family: "Open Sans", "Helvetica Neue", helvetica, arial, verdana, sans-serif;
+    line-height: 1.4em;
+    background-color: rgb(255, 255, 255);
+    margin: 0px;
+}
+
+h1 {
+    font-size: 2.4em;
+}
+
+h1, h2 {
+    color: #0e1058;
+    text-align: center;
+    line-height: 1em;
+    font-weight: normal;
+}
+
+main {
+    background-color: rgb(255, 255, 255);
+    z-index: 2;
+    /* padding: 2em; */
+    margin: auto;
+    margin-top: 7em;
+    /* margin-left: 14em;
+    margin-right: 14em; */
+    margin-bottom: 0px;
+    /* border: solid #0e1058 5px; */
+    border-radius: 3px;
+}
+
+.flexparent {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.flexchild {
+    width: 80%;
+    min-width: 8em;
+    /* text-align: center; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 1.3em;
+    /* color: white; */
+    /* border: solid #0e1058 5px; */
+    padding: 1%;
+    margin: 1%;
+    /* background-image: url('../resources/img/sentinelMosaic-art_12118A.png'); */
+}
