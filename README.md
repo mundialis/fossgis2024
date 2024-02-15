@@ -19,7 +19,7 @@ https://pretalx.com/fossgis2024/talk/SYY9NM/
 20.03, 12:20–12:40 (Europe/Berlin), Hörsaal 3 (K0506/ Audimax 2)
 https://pretalx.com/fossgis2024/talk/BKCPV8/
 
-- Monitoring von Waldgebieten mit Hilfe von Sentinel-2 abgeleiteten Vegetationsidizes
+- Monitoring von Waldgebieten mit Hilfe von Sentinel-2 abgeleiteten Vegetationsindizes
 20.03, 17:05–17:25 (Europe/Berlin), Hörsaal 2 (Ditze H016)
 https://pretalx.com/fossgis2024/talk/QJSTCF/
 
