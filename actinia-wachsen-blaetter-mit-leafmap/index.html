@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <title>actinia wachsen Blätter</title>
+    <link rel="shortcut icon" href="resources/img/mundialis_bildmarke_web.ico" type="image/x-icon">
+    <meta name="description" content="actinia und leafmap" />
+    <meta name="author" content="Markus Neteler, Carmen Tawalika" />
+    <link rel="stylesheet" href="./extras/highlight/styles/github.css">
+    <link rel="stylesheet" href="./extras/mermaid/mermaid.css">
+    <link href="./css/impress-common.css" rel="stylesheet" />
+    <link href="./css/index.css" rel="stylesheet" />
+
+</head>
+
+<body class="impress-not-supported">
+<div class="fallback-message">
+    <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+    <p>For the best experience please use the latest <b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser.</p>
+</div>
+
+<div id="bg-shade"></div>
+
+<div id="impress"
+    data-transition-duration="1000"
+    data-width="1920"
+    data-height="1080"
+    data-perspective="1000"
+    >
+
+    <div class="step slide bg" data-x="0" data-y="-40000" data-scale="150" data-z="-99">
+    </div>
+
+    <div class="step title" data-x="0" data-y="0" data-scale="50">
+      <img src="resources/img/actinia-icon.svg">
+      <h1>actinia wachsen Blätter</h1>
+        <h2>
+          Geoprozessierung und Visualisierung
+          <br />
+          mit Leafmap in Jupyter
+        </h2>
+        </br></br>
+        <p style="font-size: 1.2em;" class="center">Markus Neterler & Carmen Tawalika - mundialis - FOSSGIS 2024</p>
+    </div>
+
+    <div id="slide1" class="step slide markdown hidebefore hidecontentafter" data-x="-39000" data-y="-36000" data-scale="22">
+      ## Welches Problem lösen wir hier?
+      - Wir wollen Geodaten auch visualisieren!
+
+      - Alles soll einfach sein, am besten in einem Browser, ohne Installation von Extrasoftware
+
+      - Wir wollen uns auch von existierenden Jupyter Notebooks inspirieren lassen.
+    </div>
+
+    <div id="slide2" class="step slide hidebefore hidecontentafter" data-x="-30000" data-y="-66000" data-scale="22">
+      <h2>Was sind Leafmap und actinia?</h2>
+      <div class="flex">
+        <div style="flex:4">
+          <ul>
+            <li>Leafmap ist ein Python-Paket, das für interaktives Mapping und Geodatenanalyse in einer Jupyter-Umgebung entwickelt wurde und leistungsstarke Werkzeuge für die Exploration, Analyse und Visualisierung von Geodaten bietet</li></br>
+            <li>actinia ist eine Cloud-basierte Geoverarbeitungsplattform, die Geodaten in der Cloud analysieren kann</li>
+          </ul>
+        </div>
+        <div style="flex:2">
+            <img style="height:9em;display:block" alt="Leafmap Logo" src="resources/img/leafmap-logo.svg" />
+            <img style="height:9em;margin:6em;" alt="actinia Logo" src="resources/img/actinia-icon.svg" />
+        </div>
+      </div>
+      </div>
+
+      <div id="slide3" class="step slide hidebefore hidecontentafter" data-x="0" data-y="-96000" data-scale="22">
+      <h2>Integration von Leafmap mit actinia</h2>
+      <p>Mit einem Jupyter Notebook können wir unsere Geoanalysen auf einem actinia Server (fern-)steuern und die Ergebnisse mit Leafmap interaktiv als Kartendaten darstellen.</p>
+      <div class="flex">
+        <ul>
+          <li>Wir benötigen einen Browser</li>
+        <li>Mit Hilfe des actinia-python-clients stellen wir eine Verbindung von unserem Notebook zu einem actinia-Server her, um die Rechenleistung für die Analyse von Geodaten zu nutzen.</li>
+        <li>Wir "sagen" actinia, wo es die Daten finden kann und lassen uns das Ergebnis der Berechnungen als interaktive Karte über Leafmap anzeigen.</li>
+      </ul>
+      <img style="width:529px;height:fit-content;margin-top:2em;" alt="Visualisierung von actinia-Daten in Leafmap" src="resources/img/actinia_leafmap.jpg" />
+    </div>
+    </div>
+
+      <div id="slide4" class="step slide markdown hidebefore hidecontentafter" data-x="32000" data-y="-80000" data-scale="22">
+      ## Show me!
+      - Eine Live-Demonstration, die zeigt, wie mit actinia verarbeitete Geodaten in eine interaktive Karte mit Leafmap geladen und visualisiert werden.
+
+      - Spezielle Funktionen wie das Umschalten zwischen verschiedenen Mapping-Backends, das interaktive Ändern von Basiskarten und das Erstellen von interaktiven Webanwendungen mit Leafmap werden hervorgehoben.
+
+      TODO: webM Filmchen erstellen (aus Workshop)
+      </div>
+
+      <div id="slide5" class="step slide markdown hidebefore hidecontentafter" data-x="47000" data-y="-50000" data-scale="22">
+      ## Zusammenfassung:
+      ## Vorteile der Nutzung von Leafmap mit actinia
+      - Benutzer/innen können die von Actinia generierten Ergebnisse als interaktive Karten in Leafmap visualisieren.
+
+      - Die benutzerfreundliche Oberfläche von Leafmap und die minimalen Anforderungen an die Programmierung machen es für Nutzende mit unterschiedlichen Programmierkenntnissen zugänglich und ermöglichen es ihnen, Geodatensätze interaktiv zu erkunden und zu analysieren
+      </div>
+
+    <div id="thank-you" class="step overview" data-x="0" data-y="-40000" data-scale="150" data-z="90">
+        <h1>Vielen Dank!</h1>
+        <h2>Fragen?</h2>
+    </div>
+
+  </div>
+
+</div>
+
+<div id="impress-toolbar"></div>
+<div class="impress-progressbar"><div></div></div>
+<div class="impress-progress"></div>
+<div id="impress-help"></div>
+<script type="text/javascript" src="./extras/highlight/highlight.pack.js"></script>
+<script type="text/javascript" src="./extras/mermaid/mermaid.min.js"></script>
+<script type="text/javascript" src="./extras/markdown/markdown.js"></script>
+<script type="text/javascript" src="./js/impress.js"></script>
+<script>impress().init();</script>
+
+</body>
+</html>
