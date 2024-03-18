@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <title>Wie schreibe ich ein GRASS GIS Addon?</title>
+    <link rel="shortcut icon" href="resources/img/mundialis_bildmarke_web.ico" type="image/x-icon">
+    <meta name="description" content="Einführung in GRASS GIS Addons" />
+    <meta name="author" content="Carmen Tawalika" />
+    <link rel="stylesheet" href="./extras/highlight/styles/github.css">
+    <link rel="stylesheet" href="./extras/mermaid/mermaid.css">
+    <link href="./css/impress-common.css" rel="stylesheet" />
+    <link href="./css/index.css" rel="stylesheet" />
+
+</head>
+
+<body class="impress-not-supported">
+<div class="fallback-message">
+    <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+    <p>For the best experience please use the latest <b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser.</p>
+</div>
+
+<div id="bg-shade"></div>
+
+<div id="impress"
+    data-transition-duration="1000"
+    data-width="1920"
+    data-height="1080"
+    data-perspective="1000"
+    >
+
+    <div id="title" class="step slide" data-x="-2200" data-y="-3000" data-scale="50">
+        <h1>Wie schreibe ich ein</br> GRASS GIS Addon?</h1>
+        <h2>Bewährte Praktiken,</br> Methoden und Werkzeuge</h2>
+        <img src="resources/img/abc_no_abc.svg">
+        <p style="font-size: 1.2em;" class="center">Carmen Tawalika - mundialis - FOSSGIS 2024</p>
+    </div>
+
+    <div id="mundialis" class="step slide hidebefore hideafter" data-rel-x="0" data-rel-y="50000" data-scale="50">
+        <h1>mundialis GmbH & Co. KG</h1>
+        <div class="flex">
+            <ul style="flex:2">
+                <li>Freie Daten mit freier Software aus Bonn</li></br>
+                <li>Entwicklung von actinia, GRASS GIS und Addons, QGIS Plugins, ...</li></br>
+                <li>Einzelbaumerkennung, Waldklassifikation, Erkennung von versiegelten Flächen, ...</li></br>
+                <li><a target="_blank" href="http://www.mundialis.de">mundialis.de</a></br>
+                <a target="_blank" href="mailto:info@mundialis.de">info@mundialis.de</a></br>
+				<a target="_blank" href="https://github.com/mundialis/">github.com/mundialis <img style="height: 1em;margin:0;" src="resources/img/github-logo.png" alt="GitHub"></a>
+                </li>
+            </ul>
+            <img class="right" style="flex:3" src="resources/img/Gruppenbild_mundialis.jpg" />
+        </div>
+    </div>
+
+    <div id="inhalt" class="step slide" data-rel-x="0" data-rel-y="0" data-scale="50">
+        <h1>Inhalt</h1>
+        <div class="flex">
+            <ul style="flex:2">
+                <li><a href="#intro">Einführung</a></li></br>
+                <li><a href="#concepts">Konzepte und Praxis</a></li></br>
+                <li><a href="#tools">Qualitätssteigerung und Arbeitserleichterung</a></li></br>
+                <li><a href="#gga-mundialis">GRASS GIS Addons von mundialis</a></li></br>
+            </ul>
+            <img style="flex:3" class="right" alt="GRASS GIS Modul Wordcloud" src="resources/img/grass_greens_r.jpg">
+        </div>
+    </div>
+
+    <div id="intro" style="text-align:center" class="step slide markdown" data-x="-2200" data-y="97000" data-scale="50">
+        .<!--leave this dot in front :) -->
+        # Einführung
+    </div>
+
+    <div id="intro1" class="step slide hidebefore hideafter" data-rel-x="0" data-rel-y="-3800" data-scale="26">
+        <h2>Die Modularität von GRASS GIS</h2>
+        <div class="flex">
+            <img style="flex:3" alt="GRASS GIS Module Tafel" src="resources/img/3_grass.svg" />
+            <ul style="flex:2;margin-left: 1em;">
+                <li>Module und Addons als Bausteine</li></br>
+                <li>542 offizielle <a href="https://grass.osgeo.org/grass84/manuals/full_index.html">GRASS GIS Module</a> (15.3.24, 8.4)</li></br>
+                <li>Weitere <a href="https://github.com/OSGeo/grass-addons">offizielle Addons</a></li></br>
+                <li>Unzählige (und momentan unauffindbare*) weitere Addons</li>
+            </li></ul>
+        </div>
+        <sup style="float:right">* später mehr</sup>
+    </div>
+
+    <div id="intro2" class="step slide hidebefore hideafter" data-rel-x="0" data-rel-y="0" data-scale="26">
+      <h2>Wozu ein eigenes Addon entwickeln?</h2>
+      <div class="flex">
+          <ul style="flex:2">
+              <li>Zusammenspiel und Verkettung mit bestehenden Tools</li></br>
+              <li>Effiziente Nutzung der GRASS Datenbank</li></br>
+              <li>Nutung in actinia</li></br>
+              <li>Einhaltung von Standards erhöht die Wiederverwendbarkeit</li></br>
+              <li>...</li>
+            </ul>
+            <img style="flex:3" class="right" alt="GRASS GIS Modul Wordcloud" src="resources/img/grass_greens_r.jpg" />
+      </div>
+    </div>
+
+    <div id="intro3" class="step slide hidebefore" data-rel-x="0" data-rel-y="0" data-scale="26">
+        <h2>Minimalversion</h2>
+        <ul>
+            <li>Benennung - v.ector, r.aster, t.ime, i.magery, ...</li>
+            <li>hier absolute Grundlagen zum installieren - Wichtige Bausteine fehlen noch!</li>
+        </ul>
+        <div class="flex">
+        <div style="flex:1">
+            Python Skript (C auch möglich)
+            <pre><code>#!/usr/bin/python
+
+def main():
+    print("Created simple addon")
+
+
+if __name__ == "__main__":
+    main()
+            </code></pre>
+            HTML Datei, für Minimalversion leer
+        </div>
+        <div style="flex:1">
+            Ordnerstruktur
+            <pre><code>t.fossgis.fortune/
+├── Makefile
+├── t.fossgis.fortune.html
+└── t.fossgis.fortune.py
+        </code></pre>
+        Makefile
+        <pre><code>MODULE_TOPDIR = ../..
+PGM = t.fossgis.fortune
+include $(MODULE_TOPDIR)/include/Make/Script.make
+default: script
+        </code></pre>
+        </div>
+    </div>
+    </div>
+
+    <div id="intro4" class="step slide markdown hidebefore hideafter" data-rel-x="0" data-rel-y="0" data-scale="26">
+      ## Installation mit g.extension
+      ---
+          GRASS nc_spm_08/fossgis:~ > g.extension extension=t.fossgis.fortune url=t.fossgis.fortune
+          Compiling...
+          Installing...
+          Updating extensions metadata file...
+          Updating extension modules metadata file...
+          WARNING: No metadata available for module 't.fossgis.fortune': 'bytes'
+          object has no attribute 'encode'
+          Installation of &lt;t.fossgis.fortune&gt; successfully finished
+
+      Aufruf
+      ---
+          GRASS nc_spm_08/fossgis:~ > t.fossgis.fortune
+          Created simple addon
+    </div>
+
+    <div class="step slide overview" data-x="-2200" data-y="97000" data-scale="50">
+    </div>
+
+    <div id="concepts" class="step slide markdown" data-rel-x="87800" data-y="97000" data-scale="50">
+        # Konzepte
+        # und
+        # Praxis
+    </div>
+
+    <div id="concepts1" class="step slide hidebefore" data-rel-x="-10000" data-rel-y="-5000" data-scale="15">
+        <div class="flex">
+        <div style="flex:1">
+        <h2>Vorgehen</h2>
+        <ul><li>
+            Abgucken oder kopieren, z.B. <a target="_blank" href="https://github.com/mundialis/v.example">v.example</a>
+        </li></br>
+        <li>
+        Anleitung befolgen, z.B.</br>
+        <a target="_blank" href="https://github.com/mundialis/grass-gis-helpers/blob/main/How-to-create-a-GRASS-GIS-addon.md">How-to-create-a-GRASS-GIS-addon.md</a>
+        </li></ul>
+        </div>
+        <div style="flex:2">
+            <pre><code class="no-highlight"><u style="color: red;">v.example</u> --> umbenennen
+├── .flake8
+├── .git [...]
+├── .github
+│   └── workflows
+│       └── linting.yml
+├── .pre-commit-config.yaml
+├── .pylintrc
+├── .pylintrc_allowed_to_fail
+├── <u style="color: red;">Makefile</u>
+├── README.md
+├── renovate.json
+├── testsuite
+│   ├── data
+│   │   ├── README.md
+│   │   └── area_beuel.geojson
+│   └── test_v_example.py
+├── <u style="color: red;">v.example.html</u> --> umbenennen
+├── <u style="color: red;">v.example.py</u> --> umbenennen
+└── v_example.png
+        </code></pre>
+        </div>
+        </div>
+    </div>
+
+    <div id="concepts2" class="step slide hidebefore" data-rel-x="26000" data-rel-y="-15000" data-scale="5">
+        <div class="flex">
+        <div style="flex:1">
+        <h2>1. Dokumentation</h2>
+        <ul><li>t.fossgis.fortune.html anpassen und um ausführliche Beschreibung ergänzen</li></ul>
+        <ul><li>auch gerne mit Bildern versehen (v.example.png)</li></ul>
+        <pre><code style="border:2px red solid;border-radius:15px;">&lt;h2>DESCRIPTION&lt;/h2>
+&lt;em>t.fossgis.fortune&lt;/em>
+prints fortune cookie sayings.
+
+&lt;h2>SEE ALSO&lt;/h2>
+&lt;em>
+&lt;a href="g.message.html">
+g.message&lt;/a>
+&lt;/em>
+
+&lt;h2>AUTHOR&lt;/h2>
+Carmen Tawalika, <a href="https://www.mundialis.de/">mundialis</a>, Germany
+        </code></pre>
+
+        </div>
+        <a target="_blank" href="https://github.com/mundialis/r.learn.predict.parallel/blob/main/r.learn.parallel.predict/r.learn.parallel.predict.html"><img style="flex:1" class="right" src="resources/img/grass-manual-r.learn.parallel.predict.jpg" /></a>
+        <img style="flex:1" class="right" src="resources/img/grass-manual-r.learn.parallel.predict2.jpg" /></a>
+        </div>
+    </div>
+
+    <div id="concepts3" class="step slide hidebefore markdown" data-rel-x="-2000" data-rel-y="10000" data-scale="7">
+        ## 2. Shebang-Zeile und Header
+        - Shebang-Zeile und Header inklusive Autor, Zweck und Lizenz in t.fossgis.fortune.py ergänzen
+
+        ---
+            #!/usr/bin/env python3
+            """
+            ############################################################################
+            #
+            # MODULE:      t.fossgis.fortune
+            # AUTHOR(S):   Carmen Tawalika
+            #
+            # PURPOSE:     Prints fortune cookie sayings
+            # COPYRIGHT:   (C) 2024 by mundialis GmbH & Co. KG and the GRASS Development
+            #              Team
+            #
+            # This program is free software; you can redistribute it and/or modify
+            # [...]
+            # GNU General Public License for more details.
+            #
+            #############################################################################
+            """
+    </div>
+
+    <div id="concepts4" class="step slide hidebefore" data-rel-x="-10500" data-rel-y="20000" data-scale="11">
+        <div class="flex">
+            <ul style="flex:3;">
+                <h2>3. Der GRASS Parser</h2>
+                <li>Die "Kommentare" <code># %</code> sind wichtig für den <a target="_blank" href="https://grass.osgeo.org/grass-devel/manuals/g.parser.html">GRASS Parser</a>!</li>
+                <li>Es gibt <code>module</code>, <code>option</code> und <code>flag</code></li>
+                <li>Es gibt einige vorgefertigte Parameter, die erweitert werden können</li>
+                <li>Die Parameter können in der main Funktion eingelesen werden, z.B. <code>options['input']</code></li>
+                <li>Beispielaufruf: <code>t.fossgis.fortune input=elevation</code></li>
+            </ul>
+            <pre style="flex:1"><code># %Module
+# % description: Prints fortune...
+# % keyword: general
+# % keyword: fortune
+# %end
+
+# %option G_OPT_V_INPUT
+# % key: input
+# % required: no
+# % description: Polygon to...
+# %end
+
+# %option
+# % key: box
+# % description: Width and height
+# % type: double
+# % answer: 10,10
+# % required: yes
+# %end
+
+# %flag
+# % key: v
+# % description: Print fortune...
+# %end
+      </code></pre>
+      </div>
+      </div>
+
+      <div id="concepts5" class="step slide hidebefore" data-rel-x="20400" data-rel-y="0" data-scale="11">
+          <h2>4. main.py und cleanup</h2>
+          <ul><li><code>def main():</code> ist erforderlich und liest alle Parameter ein (z.B. <code>options['input']</code>)</li>
+            <li>Beliebig viele Zusatzfunktionen sind möglich</li>
+            <li>Der GRASS Parser muss vor dem Aufruf der main Funktion aufgerufen werden</li>
+          </li></ul>
+          <pre><code>if __name__ == "__main__":
+    options, flags = grass.parser()
+    atexit.register(cleanup)
+    main()</code></pre>
+          <pre><code>def cleanup():
+"""Cleanup function (can be extended)"""
+nuldev = open(os.devnull, "w", encoding="utf-8")
+kwargs = {"flags": "f", "quiet": True, "stderr": nuldev}
+for rmvec in rm_vec:
+    if grass.find_file(name=rmvec, element="vector")["file"]:
+        grass.run_command("g.remove", type="vector", name=rmvec, **kwargs)</code></pre>
+      </div>
+
+      <div id="concepts6" class="step slide markdown hidebefore" data-rel-x="3000" data-rel-y="-12000" data-scale="4">
+        ## 5. grass.script
+        - Nutzung von vorgefertigten Funktionen aus [GRASS GIS source code](python/script)
+        - Nutzung von existierenden Modulen
+        - i18n
+        ---
+            import grass.script as grass
+
+            try:
+                from fortune import fortune
+            except:
+                grass.fatal(_("No fortune"))
+
+            grass.message(_(fortune()))
+        ---
+            kachel = grass.parse_command(
+                "v.db.select", map=overlay, columns="cat", flags="c", quiet=True)
+
+            grass.run_command(
+                "v.extract", input=overlay, output=f"{options['output']}_{kachel}", cats=kachel)
+    </div>
+
+    <div id="concepts7" class="step slide hidebefore hideafter" data-rel-x="3000" data-rel-y="-12000" data-scale="4">
+        <h2>Zwischenstand</h2>
+        <div class="flex">
+            <pre><code>import grass.script as grass
+
+try:
+    from fortune import fortune
+except:
+    grass.fatal(_("No fortune"))
+
+def main():
+    grass.message(_(fortune()))
+
+
+if __name__ == "__main__":
+    options, flags = grass.parser()
+    main()</code></pre>
+        <img src="resources/img/t.fossgis.fortune.png" />
+        </div>
+    </div>
+
+    <div id="concepts8" class="step slide hidebefore" data-rel-x="0" data-rel-y="0" data-scale="4">
+        <h2>Zwischenstand</h2>
+        <div class="flex">
+            <div>
+    <pre><code>GRASS nc_spm_08/fossgis > g.extension extension=t.fossgis.fortune url=t.fossgis.fortune
+WARNING: Extension &lt;t.fossgis.fortune> already installed. Re-installing...
+[...]
+Installation of &lt;t.fossgis.fortune> successfully finished</code></pre>
+    <hr style="border-width: medium;">
+    <pre><code>GRASS nc_spm_08/fossgis > t.fossgis.fortune --help
+Prints fortune cookie sayings.
+
+Usage:
+ t.fossgis.fortune [-v] [input=name] [box=value] [--help] [--verbose]
+   [--quiet] [--ui]
+
+Flags:
+  -v   Print fortune version and exit
+
+Parameters:
+  input   Name of input vector map
+    box   Width and height
+          default: 10,10</code></pre>
+    <pre style="position: absolute;top: 23em;right: -7em;border: 5px solid;"><code>GRASS nc_spm_08/fossgis > t.fossgis.fortune
+Sanity and insanity overlap a fine grey line.</code></pre>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="" class="step slide markdown overview" data-x="87800" data-y="97000" data-scale="50">
+    </div>
+
+    <div id="tools" class="step slide markdown" data-x="177800" data-y="97000" data-scale="50">
+    # Qualitätssteigerung und Arbeitserleichterung
+    </div>
+
+    <div id="tools1" class="step slide hidebefore" data-rel-x="-27000" data-rel-y="11000" data-scale="8">
+        <h2>Wiederverwendbare GitHub Worflows</h2>
+        <div class="flex">
+        <div>
+        <ul>
+            <li><a target="_blank" href="https://github.com/mundialis/github-workflows">mundialis/github-workflows</a></li>
+            <li>Linting</li>
+        </ul>
+        <pre><code>[flake8]
+# E402 module level import not at top of file
+# F821 undefined name '_'
+exclude = .git
+max-line-length = 80
+per-file-ignores =
+    ./v.example.py: F821, E402</code></pre>
+        <pre><code>name: Python Flake8, black and pylint code quality check
+on: [push, pull_request]
+jobs:
+  lint:
+    uses: mundialis/github-workflows/
+          .github/workflows/linting.yml@main
+        </code></pre>
+        </div>
+        <pre><code class="no-highlight"><u style="color: #3a934a;">t.fossgis.fortune</u>
+├── <u style="color: red;">.flake8</u>
+├── .git [...]
+├── <u style="color: red;">.github</u>
+│   └── <u style="color: red;">workflows</u>
+│       └── <u style="color: red;">linting.yml</u>
+├── .pre-commit-config.yaml
+├── <u style="color: red;">.pylintrc</u>
+├── <u style="color: red;">.pylintrc_allowed_to_fail</u>
+├── <u style="color: #3a934a">Makefile</u>
+├── README.md
+├── renovate.json
+├── testsuite
+│   ├── data
+│   │   ├── README.md
+│   │   └── area_beuel.geojson
+│   └── test_v_example.py
+├── <u style="color: #3a934a;">t.fossgis.fortune.html</u>
+├── <u style="color: #3a934a;">t.fossgis.fortune.py</u>
+└── <u style="color: #3a934a;">t.fossgis.fortune.png</u>
+        </code></pre>
+        </div>
+    </div>
+
+    <div id="tools2" class="step slide hidebefore" data-rel-x="25000" data-rel-y="0" data-scale="8">
+        <h2>Wiederverwendbare GitHub Worflows</h2>
+        <div class="flex">
+            <div>
+                <ul>
+                    <li><a target="_blank" href="https://github.com/mundialis/github-workflows">mundialis/github-workflows</a></li>
+                    <li>pre-commit Hooks fürs Linting</li>
+                    <li>Auto-update workflow Version (renovate)</li>
+                </ul>
+                <pre><code>repos:
+-   repo: https://github.com/mundialis/github-workflows
+    rev: 1.0.3
+    hooks:
+    -   id: linting</code></pre>
+                <pre><code>{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:base"
+    ],
+    "pre-commit": {
+        "enabled": true
+    }
+}</code></pre>
+            </div>
+            <pre><code class="no-highlight"><u style="color: #3a934a;">t.fossgis.fortune</u>
+├── <u style="color: orange;">.flake8</u>
+├── .git [...]
+├── <u style="color: orange;">.github</u>
+│   └── <u style="color: orange;">workflows</u>
+│       └── <u style="color: orange;">linting.yml</u>
+├── <u style="color: red;">.pre-commit-config.yaml</u>
+├── <u style="color: orange;">.pylintrc</u>
+├── <u style="color: orange;">.pylintrc_allowed_to_fail</u>
+├── <u style="color: #3a934a;">Makefile</u>
+├── README.md
+├── <u style="color: red;">renovate.json</u>
+├── testsuite
+│   ├── data
+│   │   ├── README.md
+│   │   └── area_beuel.geojson
+│   └── test_v_example.py
+├── <u style="color: #3a934a;">t.fossgis.fortune.html</u>
+├── <u style="color: #3a934a;">t.fossgis.fortune.py</u>
+└── <u style="color: #3a934a;">t.fossgis.fortune.png</u>
+            </code></pre>
+        </div>
+    </div>
+
+    <div id="tools3" class="step slide hidebefore" data-rel-x="25000" data-rel-y="0" data-scale="8">
+      <h2>Wiederverwendbare GitHub Worflows</h2>
+      <div class="flex">
+        <div>
+            <ul>
+                <li><a target="_blank" href="https://github.com/mundialis/github-workflows">mundialis/github-workflows</a></li>
+                <li>Tests</li>
+            </ul>
+            <pre><code>name: Run tests for GRASS GIS addons
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  tests:
+    uses: mundialis/github-workflows/.github/
+          workflows/grass-tests.yml@grass-tests
+    # set NC_TEST_DATA to 'NC' for using
+    # NC GRASS GIS sample location
+    with:
+      NC_TEST_DATA: 'NC'
+            </code></pre>
+        </div>
+        <pre><code class="no-highlight"><u style="color: #3a934a;">t.fossgis.fortune</u>
+├── <u style="color: #3a934a;">.flake8</u>
+├── .git [...]
+├── <u style="color: #3a934a;">.github</u>
+│   └── <u style="color: #3a934a;">workflows</u>
+│       └── <u style="color: #3a934a;">linting.yml</u>
+├── <u style="color: #3a934a;">.pre-commit-config.yaml</u>
+├── <u style="color: #3a934a;">.pylintrc</u>
+├── <u style="color: #3a934a;">.pylintrc_allowed_to_fail</u>
+├── <u style="color: #3a934a;">Makefile</u>
+├── README.md
+├── <u style="color: #3a934a;">renovate.json</u>
+├── <u style="color: red;">testsuite</u>
+│   ├── <u style="color: red;">data</u>
+│   │   ├── <u style="color: red;">README.md</u>
+│   │   └── <u style="color: red;">area_beuel.geojson</u>
+│   └── <u style="color: red;">test_v_example.py</u>
+├── <u style="color: #3a934a;">t.fossgis.fortune.html</u>
+├── <u style="color: #3a934a;">t.fossgis.fortune.py</u>
+└── <u style="color: #3a934a;">t.fossgis.fortune.png</u>
+        </code></pre>
+      </div>
+    </div>
+
+    <div id="tools4" class="step slide markdown hidebefore" data-rel-x="0" data-rel-y="-20000" data-scale="8">
+    ## grass-gis-helpers
+    - Python Bibliothek [grass-gis-helpers](https://github.com/mundialis/grass-gis-helpers)
+    - Auslagerung von in GRASS GIS Addons häufig verwendeten Funktionen
+    - Verbessern der Dokumentation zur Wiederverwendbarkeit
+    - Cleanup Funktionen für spezielle Use Cases
+    - Paralleles Prozessieren
+    - Validierungsmethoden
+    - ...
+    - Contributions welcome!
+    ---
+            def check_valid_rasterdata(input, strict=True):
+
+            def get_location_size():
+    </div>
+
+
+    <div id="" class="step slide markdown overview" data-x="177800" data-y="97000" data-scale="50">
+    </div>
+
+    <div id="" class="step slide markdown hidebefore" data-x="177800" data-y="47000" data-scale="50">
+        # Wrap it up
+        - Minimalversion (Makefile, HTML, Python)
+        - Abgucken / Kopieren [v.example](https://github.com/mundialis/v.example)
+        - Anleitung befolgen [How-to-create-a-GRASS-GIS-addon.md](https://github.com/mundialis/grass-gis-helpers/blob/main/How-to-create-a-GRASS-GIS-addon.md)
+        - 1. Dokumentation in HTML-Datei
+        - 2. Shebang-Zeile und Header
+        - 3. Der GRASS Parser [g.parser](https://grass.osgeo.org/grass-devel/manuals/g.parser.html)
+        - 4. main.py und cleanup
+        - 5. Verwendung von grass.script
+        - Wiederverwendbare GitHub Worflows [mundialis/github-workflows](https://github.com/mundialis/github-workflows)
+          - Linting (Workflow & pre-commit)
+          - Test Worflow
+        - [mundialis/grass-gis-helpers](https://github.com/mundialis/grass-gis-helpers)
+    </div>
+
+    <div id="gga-mundialis" class="step slide markdown hidebefore" data-x="177800" data-y="-3000" data-scale="50">
+        # Addons von mundialis
+
+        - [mundialis/grass-addons](https://mundialis.github.io/grass-addons/) (38 Repositories*, grass-gis-helpers)
+
+        ![Übersicht über GRASS GIS addons von mundialis](resources/img/mundialis-gga.jpg)
+    </div>
+
+    <div id="gga-mundialis1" class="step slide markdown hidebefore hideafter" data-rel-x="0" data-rel-y="0" data-scale="50">
+        ## GRASS GIS Addons von mundialis
+        __[grass-keyhole](https://github.com/mundialis/grass-keyhole)__
+
+        - Keyhole Satellitenprogramm von 1959 bis 1972
+        - Orthorektifizierung alter Spionagesatellitenbilder
+          - Zusammensetzen einer Szene aus Einzelscans
+          - Sammeln von Kontroll-Punkten (GCP)
+          - Orthorektifizierung
+        - siehe auch "Das Beste der 60er, 70er und 80er: hochauflösende Spionagesatellitenaufnahmen" FOSSGIS 2023, Vortrag von M. Metz
+
+        ![](resources/img/gg-corona-flugzeug.jpg)
+        ![](resources/img/gg-corona-aufnahme.jpg)
+        ![](resources/img/gg-corona-aufnahme-aktuell.jpg)
+        ![](resources/img/gg-corona-verzerrung.jpg)
+    </div>
+
+    <div id="gga-mundialis2" class="step slide markdown hidebefore hideafter" data-rel-x="0" data-rel-y="0" data-scale="50">
+        ## GRASS GIS Addons von mundialis
+        __[r.geoserver](https://github.com/mundialis/r.geoserver)__
+
+        - Nutzung der GeoServer REST API
+        - Publizieren von
+          - Raumzeitwürfeln als GeoTIFF/Image Mosaic (t.geoserver.publish)
+          - Rasterkarten und Raumzeitwürfeln im [geoserver-grass-raster-datastore](https://mundialis.github.io/geoserver-grass-raster-datastore/) (r.geoserver.publish)
+        - Upload eines GRASS GIS Stils und Verknüpfung mit einem Layer (r.geoserver.style)
+
+        ![](resources/img/gga-geoserver.jpg)
+    </div>
+
+    <div id="gga-mundialis3" class="step slide markdown hidebefore hideafter" data-rel-x="0" data-rel-y="0" data-scale="50">
+        ## GRASS GIS Addons von mundialis
+        __[v.alkis.buildings.import](https://github.com/mundialis/v.alkis.buildings.import)__
+
+        - Herunterladen von ALKIS-Gebäudedaten und Import in GRASS GIS
+        - Download per Bundesland
+        - Mögliche Bundesländer bisher:
+          - Baden-Würrtemberg (nur lokaler Import)
+          - Berlin
+          - Brandenburg
+          - Hessen
+          - Nordrhein-Westfalen
+          - Sachsen
+        ---
+
+            v.alkis.buildings.import output=alkis_buildings federal_state=Nordrhein-Westfalen -r
+    </div>
+
+    <div id="" class="step overview" data-rel-x="-90000" data-rel-y="50000" data-scale="175" style="text-align:center">
+        </br></br></br>
+        <h1>Vielen Dank!</h1>
+        <h1>Fragen?</h1>
+    </div>
+</div>
+
+<div id="impress-toolbar"></div>
+<div class="impress-progressbar"><div></div></div>
+<div class="impress-progress"></div>
+<div id="impress-help"></div>
+<script type="text/javascript" src="./extras/highlight/highlight.pack.js"></script>
+<script type="text/javascript" src="./extras/mermaid/mermaid.min.js"></script>
+<script type="text/javascript" src="./extras/markdown/markdown.js"></script>
+<script type="text/javascript" src="./js/impress.js"></script>
+<script>impress().init();</script>
+
+</body>
+</html>
