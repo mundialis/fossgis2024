@@ -202,6 +202,12 @@ div.flex {
     transition: background-image 1s;
 }
 
+/* make video actually visible:
+   https://github.com/impress/impress.js/issues/85#issuecomment-4425048 */
+video {
+    -webkit-transform: translateZ(1px);
+}
+
 .hidebefore.future.step:not(.active) { display: none }
 
 /* body.impress-on-slide1 .title { opacity: 0.4 }
