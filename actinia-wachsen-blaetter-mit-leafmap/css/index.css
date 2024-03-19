@@ -204,8 +204,14 @@ div.flex {
 
 /* make video actually visible:
    https://github.com/impress/impress.js/issues/85#issuecomment-4425048 */
-video {
-    -webkit-transform: translateZ(1px);
+#video {
+    width: 100%;
+}
+#video:hover {
+    position: absolute;
+    top: -1.6em;
+    left: -6em;
+    width: 122%
 }
 
 .hidebefore.future.step:not(.active) { display: none }
