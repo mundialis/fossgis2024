@@ -101,7 +101,8 @@
     <div id="intro3" class="step slide hidebefore" data-rel-x="0" data-rel-y="0" data-scale="26">
         <h2>Minimalversion</h2>
         <ul>
-            <li>Benennung - v.ector, r.aster, t.ime, i.magery, ...</li>
+            <li>Benennung je nach Familie: <i>v.</i>ector, <i>r</i>.aster, <i>t.</i>ime, <i>i.</i>magery, ...</li>
+            <ul><li>d, db, g, i, m, ps, r, r3, t, test, v</li></ul>
             <li>hier absolute Grundlagen zum installieren - Wichtige Bausteine fehlen noch!</li>
         </ul>
         <div class="flex">
@@ -255,8 +256,11 @@ Carmen Tawalika, <a href="https://www.mundialis.de/">mundialis</a>, Germany
             <ul style="flex:3;">
                 <h2>3. Der GRASS Parser</h2>
                 <li>Die "Kommentare" <code># %</code> sind wichtig für den <a target="_blank" href="https://grass.osgeo.org/grass-devel/manuals/g.parser.html">GRASS Parser</a>!</li>
-                <li>Es gibt <code>module</code>, <code>option</code> und <code>flag</code></li>
-                <li>Es gibt einige vorgefertigte Parameter, die erweitert werden können</li>
+                <li>Es gibt <code>module</code>, <code>option</code>, <code>flag</code> und <code>rules</code></li>
+                <li>Es gibt einige <a target="_blank" href="https://grass.osgeo.org/grass84/manuals/parser_standard_options.html">
+                    Standardoptionen</a>, die erweitert werden können</li>
+                <li>Mit <a target="_blank" href="https://grass.osgeo.org/grass84/manuals/g.parser.html#conditional-parameters">
+                    <code>rules</code></a> können Bedingungen für Parameter bestimmt werden</li>
                 <li>Die Parameter können in der main Funktion eingelesen werden, z.B. <code>options['input']</code></li>
                 <li>Beispielaufruf: <code>t.fossgis.fortune input=elevation</code></li>
             </ul>
@@ -284,13 +288,24 @@ Carmen Tawalika, <a href="https://www.mundialis.de/">mundialis</a>, Germany
 # % key: v
 # % description: Print fortune...
 # %end
+
+# %rules
+# % requires: input,box
+# %end
       </code></pre>
       </div>
       </div>
 
+      <div id="concepts4b" class="step slide hidebefore hideafter" data-rel-x="0" data-rel-y="0" data-scale="11">
+        <div class="flex">
+            <div style="flex:3;"></div>
+            <img style="flex:1" class="right" src="resources/img/grass-manual-r.learn.parallel.predict.jpg" /></a>
+        </div>
+      </div>
+
       <div id="concepts5" class="step slide hidebefore" data-rel-x="20400" data-rel-y="0" data-scale="11">
           <h2>4. main.py und cleanup</h2>
-          <ul><li><code>def main():</code> ist erforderlich und liest alle Parameter ein (z.B. <code>options['input']</code>)</li>
+          <ul><li><code>def main():</code> ist erforderlich und liest alle Parameter ein </br>(z.B. <code>options['input']</code>)</li>
             <li>Beliebig viele Zusatzfunktionen sind möglich</li>
             <li>Der GRASS Parser muss vor dem Aufruf der main Funktion aufgerufen werden</li>
           </li></ul>
@@ -300,7 +315,7 @@ Carmen Tawalika, <a href="https://www.mundialis.de/">mundialis</a>, Germany
     main()</code></pre>
           <pre><code>def cleanup():
 """Cleanup function (can be extended)"""
-nuldev = open(os.devnull, "w", encoding="utf-8")
+nulldev = open(os.devnull, "w", encoding="utf-8")
 kwargs = {"flags": "f", "quiet": True, "stderr": nuldev}
 for rmvec in rm_vec:
     if grass.find_file(name=rmvec, element="vector")["file"]:
@@ -309,7 +324,7 @@ for rmvec in rm_vec:
 
       <div id="concepts6" class="step slide markdown hidebefore" data-rel-x="3000" data-rel-y="-12000" data-scale="4">
         ## 5. grass.script
-        - Nutzung von vorgefertigten Funktionen aus [GRASS GIS source code](python/script)
+        - Nutzung von vorgefertigten Funktionen aus [GRASS GIS source code](https://grass.osgeo.org/grass83/manuals/libpython/script.html)
         - Nutzung von existierenden Modulen
         - i18n
         ---
