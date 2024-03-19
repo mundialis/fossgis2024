@@ -207,12 +207,12 @@ div.flex {
 #video {
     width: 100%;
 }
-#video:hover {
+/* #video:hover {
     position: absolute;
     top: -1.6em;
     left: -6em;
     width: 122%
-}
+} */
 
 .hidebefore.future.step:not(.active) { display: none }
 
