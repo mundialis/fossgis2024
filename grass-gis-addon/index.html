@@ -90,7 +90,7 @@
           <ul style="flex:2">
               <li>Zusammenspiel und Verkettung mit bestehenden Tools</li></br>
               <li>Effiziente Nutzung der GRASS Datenbank</li></br>
-              <li>Nutung in actinia</li></br>
+              <li>Nutzung in actinia</li></br>
               <li>Einhaltung von Standards erhöht die Wiederverwendbarkeit</li></br>
               <li>...</li>
             </ul>
@@ -360,6 +360,7 @@ def main():
 
 if __name__ == "__main__":
     options, flags = grass.parser()
+    atexit.register(cleanup)
     main()</code></pre>
         <img src="resources/img/t.fossgis.fortune.png" />
         </div>
